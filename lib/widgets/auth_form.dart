@@ -105,7 +105,18 @@ class _AuthFormState extends State<AuthForm> {
                   if (await askUser(context, 'Send a password reset link for',
                           description: "$_email ?", yes: true, no: true) ==
                       'yes') {
-                    widget.resetPwd!(_email);
+                    try {
+                      await widget.resetPwd!(_email);
+                      if (context.mounted) {
+                        showMsg(context, "Reset password link sent.");
+                      }
+                    } catch (e) {
+                      print("Error while sending pwd reset link: $e");
+                      if (context.mounted) {
+                        showMsg(context, e.toString());
+                      }
+                      return;
+                    }
                   }
                 },
                 icon: const Icon(Icons.lock_reset_rounded),

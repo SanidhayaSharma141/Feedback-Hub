@@ -5,6 +5,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+void print(dynamic message, {int? wrapWidth}) {
+  debugPrint(message.toString(), wrapWidth: wrapWidth);
+}
+
 /// A widget which is primarily used to show a [CircularProgressIndicator]
 /// in a sizedbox
 SizedBox circularProgressIndicator({
