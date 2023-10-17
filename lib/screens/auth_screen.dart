@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/user.dart';
+import 'package:feedback_hub/providers/settings.dart';
 import 'package:feedback_hub/screens/home_page.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/auth_form.dart';
@@ -25,14 +30,30 @@ class AuthScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: AuthForm(
                 onSubmit: (userEmail, pwd) async {
-                  final response = await http.get(
-                    Uri.parse(
-                        'http://192.168.11.51:1337/api/users/k?useremail=$userEmail'),
-                    headers: {
-                      "current-user": userEmail,
-                    },
+                  final response = await http
+                      .post(Uri.parse('http://$host/api/auth/local'), body: {
+                    'identifier': userEmail,
+                    'password': pwd,
+                  });
+                  print("response.body = ${response.body}");
+                  print("response.headers = ${response.headers}");
+                  print("response.request = ${response.request}");
+                  print("response.statusCode = ${response.statusCode}");
+                  final int statusCode = response.statusCode;
+                  final body = json.decode(response.body);
+                  if (statusCode >= 400) {
+                    final err = body['error'];
+                    showMsg(context, "${err['name']}: ${err['message']}");
+                    return;
+                  }
+                  settings.jwt = body['jwt'];
+                  final Map<String, dynamic> user = body['user'];
+                  print(user);
+                  settings.currentUser = UserData(
+                    id: user['id'],
+                    email: user['email'],
+                    name: user['username'],
                   );
-                  print(response.body);
                   if (context.mounted) {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(

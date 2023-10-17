@@ -1,9 +1,13 @@
-import 'package:feedback_hub/screens/auth_screen.dart';
+import 'package:feedback_hub/providers/settings.dart';
+import 'package:feedback_hub/screens/jwt_checking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+final settings = SharedPreferenceInstance();
+
+void main() async {
   setErrorWidget();
+  await settings.init();
   runApp(const FeedbackHub());
 }
 
@@ -25,7 +29,7 @@ class FeedbackHub extends StatelessWidget {
             ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const AuthScreen(),
+      home: const JWTCheckingScreen(),
     );
   }
 }

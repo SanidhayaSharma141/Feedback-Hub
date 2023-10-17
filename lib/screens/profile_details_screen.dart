@@ -1,3 +1,4 @@
+import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/profile_preview.dart';
@@ -13,7 +14,7 @@ class ProfileDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          if (user.email == currentUser.value.email)
+          if (user.email == settings.currentUser.email)
             IconButton(
               onPressed: () {
                 // navigatorPush(context, EditProfile(user: user));
