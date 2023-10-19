@@ -1,8 +1,5 @@
 import 'package:feedback_hub/main.dart';
-import 'package:feedback_hub/models/course.dart';
 import 'package:feedback_hub/models/academic_record.dart';
-import 'package:feedback_hub/models/user.dart';
-import 'package:feedback_hub/screens/profile_details_screen.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/profile_preview.dart';
 import 'package:feedback_hub/widgets/section.dart';
@@ -17,22 +14,40 @@ class AcademicRecordScreen extends StatelessWidget {
       appBar: AppBar(
         title: shaderText(context, title: 'Academic Record'),
       ),
-      body: Column(
-        children: [
-          ProfilePreview(
-            user: settings.currentUser,
-            showCallButton: false,
-            showDetailsPage: false,
-            showChatButton: false,
-            showMailButton: false,
-          ),
-          Section(
-            title: 'Semester 1',
+      body: FutureBuilder(
+        future: fetchAllAcademicRecords(),
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return circularProgressIndicator();
+          }
+          final data = snapshot.data;
+          Map<int, List<AcademicRecord>> records = {};
+          for (var record in data!) {
+            if (records[record.semester] == null) {
+              records[record.semester] = [];
+            }
+            records[record.semester]!.add(record);
+          }
+          return ListView(
             children: [
-              // TODO
+              ProfilePreview(
+                user: settings.currentUser,
+                showCallButton: false,
+                showDetailsPage: false,
+                showChatButton: false,
+                showMailButton: false,
+              ),
+              ...records.entries.map(
+                (entry) => Section(
+                  title: "Semester ${entry.key}",
+                  children: entry.value
+                      .map((e) => AcademicRecordTile(record: e))
+                      .toList(),
+                ),
+              ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -61,7 +76,7 @@ class AcademicRecordTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(record.course!.credits.toString()),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Text(record.grade.toString()),

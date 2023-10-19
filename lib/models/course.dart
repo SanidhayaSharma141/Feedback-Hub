@@ -30,6 +30,13 @@ class Course {
     this.credits,
   });
 
+  void load(Map<String, dynamic> data) {
+    courseId = data['course_id'] ?? '';
+    name = data['Name'];
+    description = data['description'];
+    credits = data['credits'];
+  }
+
   Map<String, dynamic> encode() {
     return {
       'course_id': courseId,
@@ -54,13 +61,7 @@ Future<List<Course>> fetchCourses() async {
   print(data);
   final courseList = [
     for (final course in data)
-      Course(
-        id: course['id'],
-        courseId: course['attributes']['course_id'],
-        name: course['attributes']['Name'],
-        description: course['attributes']['description'],
-        credits: course['attributes']['credits'],
-      )
+      Course(id: course['id'], courseId: '')..load(course['attributes'])
   ];
   return courseList;
 }

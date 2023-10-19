@@ -1,3 +1,5 @@
+import 'package:feedback_hub/chat/chat.dart';
+import 'package:feedback_hub/chat/chat_screen.dart';
 import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/screens/courses/course_screen.dart';
 import 'package:feedback_hub/screens/courses/test.dart';
@@ -107,6 +109,28 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       // navigatorPush(context, );
                       showMsg(context, 'In development :-|');
+                    },
+                  ),
+                  GridTileLogo(
+                    title: 'Feedback Chats ',
+                    icon: const Icon(
+                      Icons.chat_rounded,
+                      size: 50,
+                    ),
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      navigatorPush(
+                        context,
+                        ChatScreen(
+                          chat: ChatData(
+                            owner: 'Sanidhaya Sharma',
+                            receivers: ['Ramesh Jallu', 'Alka Chaddha'],
+                            title: 'Course: ITP',
+                            path: 'itp',
+                            description: 'Course Chat',
+                          ),
+                        ),
+                      );
                     },
                   ),
                 ],
