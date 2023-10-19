@@ -1,6 +1,8 @@
 import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/models/user.dart';
+import 'package:feedback_hub/screens/auth_screen.dart';
 import 'package:feedback_hub/tools.dart';
+import 'package:feedback_hub/widgets/loading_elevated_button.dart';
 import 'package:feedback_hub/widgets/profile_preview.dart';
 import 'package:feedback_hub/widgets/section.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,14 @@ class ProfileDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          LoadingElevatedButton(
+            icon: const Icon(Icons.login),
+            label: const Text('Sign Out'),
+            onPressed: () async {
+              settings.clear();
+              navigatorPush(context, const AuthScreen());
+            },
+          ),
           if (user.email == settings.currentUser.email)
             IconButton(
               onPressed: () {

@@ -5,8 +5,8 @@ import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/providers/settings.dart';
 import 'package:feedback_hub/screens/auth_screen.dart';
 import 'package:feedback_hub/screens/home_page.dart';
+import 'package:feedback_hub/screens/intro/intro_screen.dart';
 import 'package:feedback_hub/tools.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,9 +19,6 @@ class JWTCheckingScreen extends StatefulWidget {
 
 class _JWTCheckingScreenState extends State<JWTCheckingScreen> {
   Future<void> checkJWT(context) async {
-    if (kDebugMode) {
-      await Future.delayed(const Duration(seconds: 4));
-    }
     final String jwt = settings.jwt;
     final int? id = settings.currentUser.id;
     print(jwt);
@@ -59,7 +56,8 @@ class _JWTCheckingScreenState extends State<JWTCheckingScreen> {
     }
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (context) => const AuthScreen(),
+        builder: (context) => IntroScreen(
+            done: (context) => navigatorPush(context, const AuthScreen())),
       ),
     );
   }
