@@ -43,75 +43,86 @@ class HomePage extends StatelessWidget {
               showChatButton: false,
               showMailButton: false,
             ),
-            GridView.extent(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              maxCrossAxisExtent: 320,
-              childAspectRatio: 3 / 2,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              children: [
-                GridTileLogo(
-                  title: 'Courses',
-                  icon: const Icon(
-                    Icons.calendar_month_rounded,
-                    size: 50,
-                  ),
-                  color: Theme.of(context).colorScheme.primary,
-                  onTap: () {
-                    navigatorPush(context, const CourseScreen());
-                  },
-                ),
-                GridTileLogo(
-                  title: 'Academic Record',
-                  icon: const Icon(
-                    Icons.calendar_month_rounded,
-                    size: 50,
-                  ),
-                  color: Theme.of(context).colorScheme.primary,
-                  onTap: () {
-                    navigatorPush(context, const AcademicRecordScreen());
-                  },
-                ),
-                GridTileLogo(
-                  title: 'Disciplinary History',
-                  icon: const Icon(
-                    Icons.calendar_month_rounded,
-                    size: 50,
-                  ),
-                  color: Theme.of(context).colorScheme.primary,
-                  onTap: () {
-                    // navigatorPush(context, );
-                    showMsg(context, 'In development :-|');
-                  },
-                ),
-                GridTileLogo(
-                  title: 'Your Feedbacks',
-                  icon: const Icon(
-                    Icons.calendar_month_rounded,
-                    size: 50,
-                  ),
-                  color: Theme.of(context).colorScheme.primary,
-                  onTap: () {
-                    // navigatorPush(context, );
-                    showMsg(context, 'In development :-|');
-                  },
-                ),
-              ],
-            ),
             Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: linkText(
-                  context,
-                  title: 'Made with ❤\nSanidhaya & Shivanshu',
-                  url: 'https://www.github.com/shivanshukgupta/feedback_hub',
-                  colors: [
-                    Colors.blue,
-                    Colors.purple,
-                    Colors.red,
-                  ],
-                ),
+              child: GridView.extent(
+                shrinkWrap: true,
+                maxCrossAxisExtent: 320,
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                children: [
+                  GridTileLogo(
+                    title: 'Courses',
+                    icon: const Icon(
+                      Icons.calendar_month_rounded,
+                      size: 50,
+                    ),
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      navigatorPush(context, const CourseScreen());
+                    },
+                  ),
+                  GridTileLogo(
+                    title: 'Academic Record',
+                    icon: const Icon(
+                      Icons.calendar_month_rounded,
+                      size: 50,
+                    ),
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      navigatorPush(context, const AcademicRecordScreen());
+                    },
+                  ),
+                  GridTileLogo(
+                    title: 'Disciplinary History',
+                    icon: const Icon(
+                      Icons.calendar_month_rounded,
+                      size: 50,
+                    ),
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      // navigatorPush(context, );
+                      showMsg(context, 'In development :-|');
+                    },
+                  ),
+                  GridTileLogo(
+                    title: 'Your Feedbacks',
+                    icon: const Icon(
+                      Icons.thumbs_up_down,
+                      size: 50,
+                    ),
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      // navigatorPush(context, );
+                      showMsg(context, 'In development :-|');
+                    },
+                  ),
+                  GridTileLogo(
+                    title: 'Awards and Achievements ',
+                    icon: const Icon(
+                      Icons.celebration_outlined,
+                      size: 50,
+                    ),
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      // navigatorPush(context, );
+                      showMsg(context, 'In development :-|');
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: linkText(
+                context,
+                title: 'Made with ❤\nSanidhaya & Shivanshu',
+                url: 'https://www.github.com/shivanshukgupta/feedback_hub',
+                colors: [
+                  Colors.blue,
+                  Colors.purple,
+                  Colors.red,
+                ],
               ),
             ),
           ],
