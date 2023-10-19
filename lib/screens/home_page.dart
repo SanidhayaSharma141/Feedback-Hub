@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
-              height: 50,
+              height: 0,
             ),
             ProfilePreview(
               user: settings.currentUser,
