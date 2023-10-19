@@ -1,3 +1,4 @@
+import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/models/course.dart';
 import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/tools.dart';
@@ -22,15 +23,15 @@ class AcademicRecordScreen extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            title: Text(currentUser.value.name),
-            subtitle: Text(currentUser.value.email),
+            title: Text(settings.currentUser.name!),
+            subtitle: Text(settings.currentUser.email!),
             trailing: Text("CGPA: 9.24"),
-            leading: currentUser.value != null &&
-                    currentUser.value!.imgUrl != null
+            leading: settings.currentUser != null &&
+                    settings.currentUser!.imgUrl != null
                 ? CircleAvatar(
-                    backgroundImage: NetworkImage(currentUser.value.imgUrl!),
+                    backgroundImage: NetworkImage(settings.currentUser.imgUrl!),
                     radius: 30,
-                    child: currentUser.value.imgUrl != null
+                    child: settings.currentUser.imgUrl != null
                         ? null
                         : const Icon(
                             Icons.person_rounded,
