@@ -6,6 +6,7 @@ class Course {
   String? name, description;
   int? semester;
   UserData? instructor;
+  String? grade;
   Course({
     required this.id,
     this.name,
@@ -13,5 +14,6 @@ class Course {
     this.description,
     this.instructor,
     this.semester,
+    this.grade,
   });
 }

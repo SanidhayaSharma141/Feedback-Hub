@@ -12,17 +12,17 @@ class IntroApp extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
-            'assets/transparent.png',
+            'assets/IIIT_logo.png',
             color: Theme.of(context).colorScheme.primary,
-            width: 500,
-            height: 500,
+            width: 250,
+            height: 250,
             fit: BoxFit.scaleDown,
           ),
           const SizedBox(
             height: 20,
           ),
           const Text(
-            "Welcome to the ultimate solution for hassle-free hostel living!\nIntroducing the Hustle Stay, your one-stop destination to effortlessly manage your hostel experience.\nSay goodbye to endless paperwork and long queues, as we bring you a range of convenient features right at your fingertips.\nFrom tracking your attendance to lodging complaints and making requests, we've got you covered.\nLet's dive into the exciting features awaiting you!",
+            "Introducing FeedbackHub: Your Bridge to College Transparency\n\nFeedbackHub is your gateway to enhanced transparency between parents and colleges. Stay informed, engaged, and connected to your child's academic journey like never before. Join us in redefining the parent-college relationship and make education a collaborative effort.",
             textAlign: TextAlign.center,
           ),
         ],

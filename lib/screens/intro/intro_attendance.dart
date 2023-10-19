@@ -28,7 +28,7 @@ class IntroAttendance extends StatelessWidget {
             children: [
               shaderText(
                 context,
-                title: "Your Hostel Attendance",
+                title: "Academic Record",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -37,7 +37,7 @@ class IntroAttendance extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                "\u2022 Never miss a beat with our smart attendance tracker\n\u2022 Track your campus presence\n\u2022 Calculate your mess refund\n\u2022 Request leaves conveniently\n\u2022 And report your arrivals in a snap",
+                "Academic Record Feature on FeedbackHub: Keeping You Informed and Empowered\n\nThe Academic Record feature on FeedbackHub is your window into your child's educational progress. With real-time updates on grades, assignments, and attendance, you can stay informed and engaged, ensuring your child's success. Take charge of their academic journey with this powerful tool, fostering collaboration between parents and colleges for a brighter future.",
               ),
             ],
           ),

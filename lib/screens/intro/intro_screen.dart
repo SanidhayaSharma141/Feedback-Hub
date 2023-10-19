@@ -5,7 +5,7 @@ import 'package:feedback_hub/screens/intro/intro_requests.dart';
 import 'package:flutter/material.dart';
 
 class IntroScreen extends StatefulWidget {
-  final void Function() done;
+  final void Function(BuildContext context) done;
   const IntroScreen({super.key, required this.done});
 
   @override
@@ -79,7 +79,7 @@ class _IntroScreenState extends State<IntroScreen>
                 onPressed: () {
                   final index = _tabBarController.index + 1;
                   if (index == _tabBarController.length) {
-                    widget.done();
+                    widget.done(context);
                     return;
                   }
                   _pageController.animateToPage(index,

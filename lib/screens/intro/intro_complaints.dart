@@ -28,7 +28,7 @@ class IntroComplaints extends StatelessWidget {
             children: [
               shaderText(
                 context,
-                title: "Your Complaints",
+                title: "Your Feedback",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -37,7 +37,7 @@ class IntroComplaints extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                "\u2022 Experience hassle-free complaint management with Hustle Stay.\n\u2022 Report any issues.\n\u2022 Stay updated on their status.\n\u2022 And enjoy a seamless resolution process to ensure a comfortable living environment.",
+                "Share Feedback Feature on FeedbackHub:\n\nThe Share Feedback feature on FeedbackHub is your voice in the educational process. It's a powerful tool that allows parents to provide valuable input, suggestions, and concerns directly to the college. Whether it's praising an exceptional professor, addressing a concern, or suggesting improvements, your feedback matters. With FeedbackHub, your opinions are heard, and positive changes are just a click away, fostering a dynamic and responsive educational community.",
               ),
             ],
           ),

@@ -5,6 +5,8 @@ import 'package:feedback_hub/widgets/grid_tile_logo.dart';
 import 'package:feedback_hub/widgets/profile_preview.dart';
 import 'package:flutter/material.dart';
 
+import 'academic_record/academic_record_screen.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -53,7 +55,7 @@ class HomePage extends StatelessWidget {
                   ),
                   color: Theme.of(context).colorScheme.primary,
                   onTap: () {
-                    showMsg(context, 'Hehe');
+                    navigatorPush(context, const AcademicRecordScreen());
                   },
                 ),
                 GridTileLogo(
@@ -65,7 +67,7 @@ class HomePage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                   onTap: () {
                     // navigatorPush(context, );
-                    showMsg(context, 'Hehe');
+                    showMsg(context, 'In development :-|');
                   },
                 ),
                 GridTileLogo(
@@ -77,7 +79,7 @@ class HomePage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                   onTap: () {
                     // navigatorPush(context, );
-                    showMsg(context, 'Hehe');
+                    showMsg(context, 'In development :-|');
                   },
                 ),
               ],

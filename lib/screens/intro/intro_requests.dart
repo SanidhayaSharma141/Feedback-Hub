@@ -28,7 +28,7 @@ class IntroRequests extends StatelessWidget {
             children: [
               shaderText(
                 context,
-                title: "Your Requests",
+                title: "Disciplinary history",
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -37,7 +37,7 @@ class IntroRequests extends StatelessWidget {
                 height: 20,
               ),
               const Text(
-                "\u2022 Say goodbye to emails and streamline your requests with Hustle Stay.\n\u2022 Need to borrow a van for night travel?\n      - Submit a van request\n\u2022 Craving a specific dish for dinner?\n      - Simply place a mess request\n\u2022 And all of that with a few taps.",
+                "The View Disciplinary History feature of FeedbackHub offers parents and guardians a powerful tool to track their child's disciplinary records at college. With just a few clicks, you can gain insight into any past disciplinary actions or incidents, helping you stay informed about your child's behavior and ensuring their success. This feature reinforces our commitment to transparency, ensuring you have all the information you need to support your child's academic journey.",
               ),
             ],
           ),
