@@ -1,6 +1,9 @@
 import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/screens/Achievements/achievement.dart';
 import 'package:feedback_hub/screens/courses/course_screen.dart';
 import 'package:feedback_hub/screens/courses/test.dart';
+import 'package:feedback_hub/screens/disciplinary_history/disciplinary_history.dart';
+import 'package:feedback_hub/screens/feedbacks/feedback.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/grid_tile_logo.dart';
 import 'package:feedback_hub/widgets/loading_elevated_button.dart';
@@ -81,8 +84,7 @@ class HomePage extends StatelessWidget {
                     ),
                     color: Theme.of(context).colorScheme.primary,
                     onTap: () {
-                      // navigatorPush(context, );
-                      showMsg(context, 'In development :-|');
+                      navigatorPush(context, const DisciplinaryScreen());
                     },
                   ),
                   GridTileLogo(
@@ -93,8 +95,8 @@ class HomePage extends StatelessWidget {
                     ),
                     color: Theme.of(context).colorScheme.primary,
                     onTap: () {
-                      // navigatorPush(context, );
-                      showMsg(context, 'In development :-|');
+                      navigatorPush(context, const FeedbackScreen());
+                      // showMsg(context, 'In development :-|');
                     },
                   ),
                   GridTileLogo(
@@ -105,8 +107,8 @@ class HomePage extends StatelessWidget {
                     ),
                     color: Theme.of(context).colorScheme.primary,
                     onTap: () {
-                      // navigatorPush(context, );
-                      showMsg(context, 'In development :-|');
+                      navigatorPush(context, const AchievementScreen());
+                      // showMsg(context, 'In development :-|');
                     },
                   ),
                 ],
