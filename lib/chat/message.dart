@@ -81,7 +81,9 @@ Future<MessageData?> fetchLastMessage(String path) async {
 final ValueNotifier<List<MessageData>> messages = ValueNotifier([]);
 
 Future<void> addMessage(ChatData chat, MessageData msg) async {
-  messages.value.add(msg);
+  final newList = messages.value;
+  newList.add(msg);
+  messages.value = newList;
 }
 
 Future<void> deleteMessage(ChatData chat, MessageData msg) async {
