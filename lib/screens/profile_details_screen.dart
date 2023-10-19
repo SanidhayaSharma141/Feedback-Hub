@@ -39,16 +39,26 @@ class ProfileDetailsScreen extends StatelessWidget {
               Section(
                 title: 'Personal Information',
                 children: [
-                  if (user.phoneNumber != null && user.phoneNumber!.isNotEmpty)
-                    KeyValueRow(
-                      attribute: 'Phone Number',
-                      value: user.phoneNumber!,
-                    ),
-                  if (user.address != null && user.address!.isNotEmpty)
-                    KeyValueRow(
-                      attribute: 'Address',
-                      value: user.address!,
-                    ),
+                  KeyValueRow(
+                    attribute: 'Email',
+                    value: user.email,
+                  ),
+                  KeyValueRow(
+                    attribute: 'Name',
+                    value: user.name,
+                  ),
+                  KeyValueRow(
+                    attribute: 'Phone Number',
+                    value: user.phoneNumber,
+                  ),
+                  KeyValueRow(
+                    attribute: 'Address',
+                    value: user.address,
+                  ),
+                  KeyValueRow(
+                    attribute: 'Last Updated At',
+                    value: user.modifiedAt.toString(),
+                  ),
                 ],
               ),
             ],
@@ -69,7 +79,7 @@ class KeyValueRow extends StatelessWidget {
 
   final String attribute;
   final double? width;
-  final String value;
+  final String? value;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +91,7 @@ class KeyValueRow extends StatelessWidget {
         children: [
           Text(attribute),
           Text(
-            value,
+            value == null || value!.trim().isEmpty ? "Not set yet" : value!,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                 ),

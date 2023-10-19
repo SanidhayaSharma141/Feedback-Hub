@@ -12,7 +12,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(15.0),
