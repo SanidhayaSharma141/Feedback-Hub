@@ -1,4 +1,4 @@
-import 'package:feedback_hub/models/user.dart';
+import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/screens/courses/course_screen.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/grid_tile_logo.dart';
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
               height: 50,
             ),
             ProfilePreview(
-              user: currentUser.value,
+              user: settings.currentUser,
               showCallButton: false,
               showChatButton: false,
               showMailButton: false,

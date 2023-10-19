@@ -39,6 +39,8 @@ dependencies:
   intl: ^0.18.1
   google_fonts: ^5.1.0
   animated_icon: ^0.0.5
+  http: ^1.1.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:

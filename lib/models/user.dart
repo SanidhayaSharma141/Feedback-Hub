@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
 class UserData {
   /// Readonly
+  int? id;
   String? email;
   bool isAdmin = false;
   String type = "student";
@@ -13,6 +12,7 @@ class UserData {
   String? imgUrl;
 
   UserData.other({
+    this.id,
     this.email,
     this.name,
     this.phoneNumber,
@@ -21,6 +21,7 @@ class UserData {
   });
 
   UserData({
+    this.id,
     this.email,
     this.name,
     this.phoneNumber,
@@ -31,6 +32,7 @@ class UserData {
   Map<String, dynamic> encode() {
     return {
       if (phoneNumber != null) "phoneNumber": phoneNumber,
+      if (id != null) "id": id,
       if (address != null) "address": address,
       if (imgUrl != null) "imgUrl": imgUrl,
       "isAdmin": isAdmin,
@@ -46,16 +48,8 @@ class UserData {
     imgUrl = data['imgUrl'] ?? imgUrl;
     isAdmin = data['isAdmin'] ?? isAdmin;
     type = data['type'] ?? type;
+    id = data['id'] ?? id;
     name = data['name'] ?? name;
     modifiedAt = data['modifiedAt'] ?? modifiedAt;
   }
 }
-
-ValueNotifier currentUser = ValueNotifier(
-  UserData(
-    email: 'cs21b1027@iiitr.ac.in',
-    name: 'Shivanshu Gupta',
-    imgUrl:
-        'https://students.iiitr.ac.in/assets/images/council/shivanshukgupta.png',
-  ),
-);
