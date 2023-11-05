@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:feedback_hub/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String host = "192.168.143.64:1337";
+const String host = "localhost:1337";
 
 class SharedPreferenceInstance {
   late SharedPreferences prefs;

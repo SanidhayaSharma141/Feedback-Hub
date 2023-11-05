@@ -14,40 +14,52 @@ class AcademicRecordScreen extends StatelessWidget {
       appBar: AppBar(
         title: shaderText(context, title: 'Academic Record'),
       ),
-      body: FutureBuilder(
-        future: fetchAllAcademicRecords(),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return circularProgressIndicator();
-          }
-          final data = snapshot.data;
-          Map<int, List<AcademicRecord>> records = {};
-          for (var record in data!) {
-            if (records[record.semester] == null) {
-              records[record.semester] = [];
+      body: Center(
+        child: FutureBuilder(
+          future: fetchAcademicRecords(),
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return circularProgressIndicator();
             }
-            records[record.semester]!.add(record);
-          }
-          return ListView(
-            children: [
-              ProfilePreview(
-                user: settings.currentUser,
-                showCallButton: false,
-                showDetailsPage: false,
-                showChatButton: false,
-                showMailButton: false,
-              ),
-              ...records.entries.map(
-                (entry) => Section(
-                  title: "Semester ${entry.key}",
-                  children: entry.value
-                      .map((e) => AcademicRecordTile(record: e))
-                      .toList(),
+            if (snapshot.hasError) {
+              return Text(
+                snapshot.error.toString(),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.red,
+                      fontStyle: FontStyle.italic,
+                    ),
+                textAlign: TextAlign.center,
+              );
+            }
+            final data = snapshot.data;
+            Map<int, List<AcademicRecord>> records = {};
+            for (var record in data!) {
+              if (records[record.semester] == null) {
+                records[record.semester] = [];
+              }
+              records[record.semester]!.add(record);
+            }
+            return ListView(
+              children: [
+                ProfilePreview(
+                  user: settings.currentUser,
+                  showCallButton: false,
+                  showDetailsPage: false,
+                  showChatButton: false,
+                  showMailButton: false,
                 ),
-              ),
-            ],
-          );
-        },
+                ...records.entries.map(
+                  (entry) => Section(
+                    title: "Semester ${entry.key}",
+                    children: entry.value
+                        .map((e) => AcademicRecordTile(record: e))
+                        .toList(),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -63,7 +75,9 @@ class AcademicRecordTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        showMsg(context, record.course!.description.toString());
+      },
       leading: Text(record.course!.courseId),
       title: Text(record.course!.name ?? "Unknown Course"),
       subtitle: Text(
@@ -79,9 +93,30 @@ class AcademicRecordTile extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Text(record.grade.toString()),
+          Text(record.grade == null ? "   " : pointToGrade(record.grade!)),
         ],
       ),
     );
   }
+}
+
+String pointToGrade(double gradePoint) {
+  if (gradePoint >= 9.0) {
+    return 'A';
+  } else if (gradePoint >= 9.0) {
+    return 'A-';
+  } else if (gradePoint >= 8.0) {
+    return 'B';
+  } else if (gradePoint >= 7.0) {
+    return 'B-';
+  } else if (gradePoint >= 6.0) {
+    return 'C';
+  } else if (gradePoint >= 5.0) {
+    return 'C-';
+  } else if (gradePoint >= 4.0) {
+    return 'D';
+  } else if (gradePoint >= 3.0) {
+    return 'D-';
+  }
+  return 'F';
 }

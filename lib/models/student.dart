@@ -13,7 +13,10 @@ class Student extends UserData {
   @override
   void load(Map<String, dynamic> data) {
     super.load(data['userData'] ?? {});
-    dateOfJoining = data['date_of_joining'];
+    if (data['date_of_joining'] != null) {
+      final String doj = data['date_of_joining'];
+      dateOfJoining = DateTime(int.parse(doj.substring(0, 3)));
+    }
     rollNumber = data['roll_number'];
     parents = data['parents'];
   }

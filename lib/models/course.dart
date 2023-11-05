@@ -34,7 +34,7 @@ class Course {
     courseId = data['course_id'] ?? '';
     name = data['Name'];
     description = data['description'];
-    credits = data['credits'];
+    credits = data['credit'];
   }
 
   Map<String, dynamic> encode() {
