@@ -1,3 +1,6 @@
+import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/course.dart';
+import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/loading_elevated_button.dart';
 import 'package:flutter/foundation.dart';
@@ -14,9 +17,22 @@ class MainDrawer extends StatelessWidget {
           if (kDebugMode)
             LoadingElevatedButton(
               icon: const Icon(Icons.abc),
-              label: const Text('Get My Courses'),
+              label: const Text('Get UserData'),
               onPressed: () async {
-                print("Hello");
+                await fetchUserData(null);
+              },
+            ),
+          if (kDebugMode)
+            LoadingElevatedButton(
+              icon: const Icon(Icons.abc),
+              label: const Text('Get Current Courses'),
+              onPressed: () async {
+                if (settings.currentUser.instructorData != null) {
+                  final courses = await fetchCurrentCourses();
+                  print(courses);
+                } else {
+                  showMsg(context, "You aren't an instructor.");
+                }
               },
             ),
         ],

@@ -28,7 +28,7 @@ class AcademicRecord extends StrapiObject {
 Future<List<AcademicRecord>> fetchAcademicRecords() async {
   final response = await http.get(
     Uri.parse(
-      'http://$host/api/users/me?populate[0]=student&populate[1]=student.academic_records&populate[2]=student.academic_records.course&populate[3]=student.academic_records.instructor&populate[4]=student.academic_records.instructor.userdatum',
+      'http://$host/api/users/me?populate[0]=student_data&populate[1]=student_data.academic_records&populate[2]=student_data.academic_records.course&populate[3]=student_data.academic_records.instructor&populate[4]=student_data.academic_records.instructor.userdatum',
     ),
     headers: {
       'Authorization': 'Bearer ${settings.jwt}',
@@ -41,7 +41,7 @@ Future<List<AcademicRecord>> fetchAcademicRecords() async {
     throw "${err['name']}(Code: ${err['status']}): ${err['message']}";
   }
   print('response.body = ${response.body}');
-  final studentData = json.decode(response.body)['student'];
+  final studentData = json.decode(response.body)['student_data'];
   if (studentData == null) {
     throw "Either you're not a student or you do not have permission to view this.\nIf this is a mistake contact the administrator.";
   }

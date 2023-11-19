@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:feedback_hub/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,18 +34,7 @@ class SharedPreferenceInstance {
     prefs.setString('jwt', value);
   }
 
-  UserData _user = UserData();
-
-  // user
-  UserData get currentUser {
-    _user.load(json.decode(prefs.getString('user') ?? "{}"));
-    return _user;
-  }
-
-  set currentUser(UserData value) {
-    _user = value;
-    prefs.setString('user', json.encode(value.encode()));
-  }
+  UserData currentUser = UserData();
 
   // dark modes
   bool? get theme {

@@ -24,6 +24,11 @@ class StudentData extends StrapiObject {
     }
     rollNumber = data['roll_number'];
     parent = data['parent'];
-    academicRecords = data['academic_records'];
+    if (data['academic_records'] != null) {
+      academicRecords = [
+        for (final record in data['academic_records'])
+          AcademicRecord()..load(record)
+      ];
+    }
   }
 }

@@ -1,10 +1,10 @@
 import 'package:feedback_hub/models/strapi_object.dart';
 import 'package:feedback_hub/models/user.dart';
 
-class ParentData extends StrapiObject {
+class Parent extends StrapiObject {
   List<UserData>? children;
 
-  ParentData({
+  Parent({
     this.children,
   });
 

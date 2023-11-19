@@ -26,15 +26,19 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   /// TODO: remove the below default values when moving to production
-  String _email = kDebugMode ? "code_soc@students.iiitr.ac.in" : '',
+  String _email = kDebugMode ? "cs21b1024" : '',
       _password = kDebugMode ? "123456" : '';
 
   final _formkey = GlobalKey<FormState>();
+  final String suffix = "@iiitr.ac.in";
 
   Future<void> _save() async {
     FocusScope.of(context).unfocus();
     if (!_formkey.currentState!.validate()) return;
     _formkey.currentState!.save();
+    if (!_email.endsWith(suffix)) {
+      _email += suffix;
+    }
     await widget.onSubmit(_email.trim(), _password);
   }
 
@@ -52,11 +56,17 @@ class _AuthFormState extends State<AuthForm> {
               initialValue: _email,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
+                suffixText: '@iiitr.ac.in',
                 icon: const Icon(Icons.email_rounded),
                 iconColor: Theme.of(context).colorScheme.onBackground,
                 label: const Text('Email'),
               ),
-              validator: (email) => Validate.email(email),
+              validator: (email) {
+                if (email == null || email.isEmpty) {
+                  return "An Email is required!";
+                }
+                return null;
+              },
               onChanged: (value) => _email = value,
               onSaved: (value) {
                 _email = value!;

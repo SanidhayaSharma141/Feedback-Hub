@@ -11,9 +11,12 @@ class StrapiObject {
   }
 
   void load(Map<String, dynamic> data) {
-    id = int.tryParse(data['id'] ?? "0") ?? 0;
-    // TODO: change the below value into a datetime object
-    createdAt = DateTime.parse(data['createdAt']);
-    updatedAt = DateTime.parse(data['updatedAt']);
+    id = data['id'] ?? id;
+    if (data['createdAt'] != null) {
+      createdAt = DateTime.parse(data['createdAt']);
+    }
+    if (data['updatedAt'] != null) {
+      updatedAt = DateTime.parse(data['updatedAt']);
+    }
   }
 }

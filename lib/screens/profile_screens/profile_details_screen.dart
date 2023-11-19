@@ -45,8 +45,11 @@ class ProfileDetailsScreen extends StatelessWidget {
                 showDetailsPage: false,
               ),
               const Divider(),
-              const Text('Courses'),
-              // TODO: Fetch all courses and show a horizontal line.
+              const Text('Courses Taught/enrolled by him'),
+              const Divider(),
+              const Text('Grades he/you gave you/him'),
+              const Divider(),
+              const Text('Childrens'),
               // TODO: Override courses api and make it so that we get appropriate courses for each user.
               // ListView.builder(
               //   itemBuilder: (context, index) {

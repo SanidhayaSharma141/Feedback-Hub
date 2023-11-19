@@ -54,6 +54,16 @@ class AuthScreen extends StatelessWidget {
                     email: user['email'],
                     name: user['username'],
                   );
+                  try {
+                    final userData = await fetchUserData(null);
+                    if (userData != null) {
+                      settings.currentUser = userData;
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      showMsg(context, e.toString());
+                    }
+                  }
                   if (context.mounted) {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(

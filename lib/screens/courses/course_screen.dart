@@ -23,7 +23,7 @@ class CourseScreen extends StatelessWidget {
             ],
           );
         },
-        future: fetchCourses(),
+        future: fetchAllCourses(),
       ),
     );
   }
@@ -61,7 +61,7 @@ class CourseTile extends StatelessWidget {
           if (course.instructors != null)
             for (final instructor in course.instructors!)
               Text(
-                instructor.name ?? instructor.email!,
+                instructor.id.toString(),
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: Theme.of(context)
                           .colorScheme
