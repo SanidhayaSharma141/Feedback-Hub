@@ -3,12 +3,12 @@ import 'package:feedback_hub/chat/chat_screen.dart';
 import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/screens/Achievements/achievement.dart';
 import 'package:feedback_hub/screens/courses/course_screen.dart';
-import 'package:feedback_hub/screens/courses/test.dart';
 import 'package:feedback_hub/screens/disciplinary_history/disciplinary_history.dart';
 import 'package:feedback_hub/screens/feedbacks/feedback.dart';
+import 'package:feedback_hub/screens/main_drawer.dart';
 import 'package:feedback_hub/tools.dart';
+import 'package:feedback_hub/widgets/dark_light_mode_button.dart';
 import 'package:feedback_hub/widgets/grid_tile_logo.dart';
-import 'package:feedback_hub/widgets/loading_elevated_button.dart';
 import 'package:feedback_hub/widgets/profile_preview.dart';
 import 'package:flutter/material.dart';
 
@@ -20,20 +20,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            LoadingElevatedButton(
-              icon: const Icon(Icons.abc),
-              label: const Text('Update Courses'),
-              onPressed: () async {
-                await func();
-              },
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        actions: const [
+          DarkLightModeIconButton(),
+        ],
       ),
+      drawer: const MainDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(

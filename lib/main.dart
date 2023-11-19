@@ -16,20 +16,28 @@ class FeedbackHub extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          // brightness: settings.darkMode ? Brightness.dark : Brightness.light,
-          seedColor: const Color.fromARGB(255, 38, 140, 235),
-        ),
-        textTheme: GoogleFonts.quicksandTextTheme().apply(
-            // bodyColor: settings.darkMode ? Colors.white : Colors.black,
-            // displayColor: settings.darkMode ? Colors.white : Colors.black,
+    return ValueListenableBuilder(
+      valueListenable: darkMode,
+      builder: (context, value, child) {
+        final bool dark = darkMode.value == null
+            ? MediaQuery.of(context).platformBrightness == Brightness.dark
+            : darkMode.value!;
+        return MaterialApp(
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(
+              brightness: dark ? Brightness.dark : Brightness.light,
+              seedColor: const Color.fromARGB(255, 38, 140, 235),
             ),
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const JWTCheckingScreen(),
+            textTheme: GoogleFonts.quicksandTextTheme().apply(
+              bodyColor: dark ? Colors.white : Colors.black,
+              displayColor: dark ? Colors.white : Colors.black,
+            ),
+          ),
+          debugShowCheckedModeBanner: false,
+          home: const JWTCheckingScreen(),
+        );
+      },
     );
   }
 }

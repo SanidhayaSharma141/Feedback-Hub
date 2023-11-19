@@ -1,23 +1,29 @@
+import 'package:feedback_hub/models/academic_record.dart';
+import 'package:feedback_hub/models/strapi_object.dart';
 import 'package:feedback_hub/models/user.dart';
 
-class Student extends UserData {
+class StudentData extends StrapiObject {
   DateTime? dateOfJoining;
   String? rollNumber;
-  List<UserData>? parents;
-  Student({
+  UserData? parent;
+  List<AcademicRecord>? academicRecords;
+
+  StudentData({
     this.dateOfJoining,
     this.rollNumber,
-    this.parents,
+    this.parent,
+    this.academicRecords,
   });
 
   @override
   void load(Map<String, dynamic> data) {
-    super.load(data['userData'] ?? {});
+    super.load(data);
     if (data['date_of_joining'] != null) {
       final String doj = data['date_of_joining'];
       dateOfJoining = DateTime(int.parse(doj.substring(0, 3)));
     }
     rollNumber = data['roll_number'];
-    parents = data['parents'];
+    parent = data['parent'];
+    academicRecords = data['academic_records'];
   }
 }

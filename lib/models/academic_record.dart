@@ -2,21 +2,21 @@ import 'dart:convert';
 
 import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/models/course.dart';
+import 'package:feedback_hub/models/strapi_object.dart';
 import 'package:feedback_hub/models/student.dart';
 import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/providers/settings.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:http/http.dart' as http;
 
-class AcademicRecord {
-  int id;
+class AcademicRecord extends StrapiObject {
   Course? course;
   UserData? instructor;
-  Student? student;
+  StudentData? student;
   int semester;
   double? grade;
   AcademicRecord({
-    this.id = 0,
+    super.id = 0,
     this.course,
     this.instructor,
     this.student,
@@ -58,8 +58,8 @@ Future<List<AcademicRecord>> fetchAcademicRecords() async {
           ..load(record['course'] ?? {}),
         semester: record['Semester'],
         grade: (record['grade'] as int?)?.toDouble(),
-        student: Student()..load(studentData),
-        instructor: UserData()..load(record['course'] ?? {}),
+        student: StudentData()..load(studentData),
+        instructor: UserData()..load(record['instructor']['userdatum'] ?? {}),
       )
   ];
   return recordList;

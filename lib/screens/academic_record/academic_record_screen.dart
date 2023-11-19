@@ -81,10 +81,11 @@ class AcademicRecordTile extends StatelessWidget {
       leading: Text(record.course!.courseId),
       title: Text(record.course!.name ?? "Unknown Course"),
       subtitle: Text(
-        (record.course!.instructors ?? []).fold(
-            '',
-            (previousValue, element) =>
-                previousValue += element.name ?? element.email!),
+        record.instructor == null
+            ? "No Instructor"
+            : record.instructor!.name ??
+                record.instructor!.email ??
+                "No name or email",
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

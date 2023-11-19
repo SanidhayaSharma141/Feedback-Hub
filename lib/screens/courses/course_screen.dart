@@ -40,7 +40,7 @@ class CourseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      title: Text(course.name ?? (course.type ?? "Course")),
+      title: Text(course.name ?? course.courseId),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
@@ -51,18 +51,11 @@ class CourseTile extends StatelessWidget {
             spacing: 4,
             children: [
               Text(
-                "${course.courseId} - ${course.type ?? ''}",
+                "${course.courseId} - ${course.name ?? ''}",
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
               ),
-              if (course.semester != null)
-                Text(
-                  course.semester!.toString(),
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                ),
             ],
           ),
           if (course.instructors != null)

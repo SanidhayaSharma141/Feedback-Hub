@@ -1,5 +1,5 @@
 import 'package:feedback_hub/models/user.dart';
-import 'package:feedback_hub/screens/profile_details_screen.dart';
+import 'package:feedback_hub/screens/profile_screens/profile_details_screen.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/image_preview.dart';
 import 'package:flutter/material.dart';

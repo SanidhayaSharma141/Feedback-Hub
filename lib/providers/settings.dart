@@ -1,14 +1,18 @@
 import 'dart:convert';
 
 import 'package:feedback_hub/models/user.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String host = "localhost:1337";
+
+ValueNotifier<bool?> darkMode = ValueNotifier(null);
 
 class SharedPreferenceInstance {
   late SharedPreferences prefs;
   Future<void> init() async {
     prefs = await SharedPreferences.getInstance();
+    darkMode.value = theme;
   }
 
   Future<void> clear() async {
@@ -33,6 +37,7 @@ class SharedPreferenceInstance {
   }
 
   UserData _user = UserData();
+
   // user
   UserData get currentUser {
     _user.load(json.decode(prefs.getString('user') ?? "{}"));
@@ -42,5 +47,20 @@ class SharedPreferenceInstance {
   set currentUser(UserData value) {
     _user = value;
     prefs.setString('user', json.encode(value.encode()));
+  }
+
+  // dark modes
+  bool? get theme {
+    darkMode.value = prefs.getBool('darkMode');
+    return darkMode.value;
+  }
+
+  set theme(bool? value) {
+    darkMode.value = value;
+    if (value != null) {
+      prefs.setBool('darkMode', value);
+    } else {
+      prefs.remove('darkMode');
+    }
   }
 }
