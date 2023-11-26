@@ -73,12 +73,9 @@ class UserData extends StrapiObject {
 }
 
 // if id parameter is skipped then it will fetch the UserData of current user
-Future<UserData>? fetchUserData(
-  int? id, {
-  bool fetchStudentData = false,
-  bool fetchParentData = false,
-  bool fetchInstructorData = false,
-}) async {
+// it only fetches upto 1 depth,
+// for further population of data, do individual queries to get student/instructor/parent data
+Future<UserData>? fetchUserData(int? id) async {
   UserData userData = UserData();
   final response = await http.get(
     Uri.parse(

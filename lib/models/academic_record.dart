@@ -25,6 +25,7 @@ class AcademicRecord extends StrapiObject {
   });
 }
 
+// This only works for student
 Future<List<AcademicRecord>> fetchAcademicRecords() async {
   final response = await http.get(
     Uri.parse(

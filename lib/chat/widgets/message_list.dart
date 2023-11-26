@@ -1,8 +1,8 @@
-import 'package:feedback_hub/chat/chat.dart';
 import 'package:feedback_hub/chat/message.dart';
 import 'package:feedback_hub/chat/widgets/indicative_message.dart';
 import 'package:feedback_hub/chat/widgets/message.dart';
 import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/chat.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class _MessageListState extends State<MessageList> {
   Widget build(BuildContext context) {
     // TODO: add more functionality like edit a message and send messages.value in reference to other messages.value
 
-    if (messages.value.isEmpty) {
+    if (widget.chat.messages == null || messages.value.isEmpty) {
       return Center(
         child: Text(
           'Send your first message',
@@ -30,9 +30,10 @@ class _MessageListState extends State<MessageList> {
     }
 
     widget.chat.messages = messages.value.map((e) => e).toList();
-    widget.chat.messages = widget.chat.messages.reversed.toList();
-    for (final msg in widget.chat.messages) {
-      if (msg.readBy.contains(settings.currentUser.email)) break;
+    widget.chat.messages = widget.chat.messages!.reversed.toList();
+    for (final msg in widget.chat.messages!) {
+      if (msg.readBy == null ||
+          msg.readBy!.contains(settings.currentUser.email)) break;
       addMeInReadBy(widget.chat, msg);
     }
     return ValueListenableBuilder(
@@ -41,10 +42,10 @@ class _MessageListState extends State<MessageList> {
         reverse: true,
         shrinkWrap: true,
         separatorBuilder: (ctx, index) {
-          if (index == widget.chat.messages.length - 1) return Container();
-          final msg = widget.chat.messages[index];
+          if (index == widget.chat.messages!.length - 1) return Container();
+          final msg = widget.chat.messages![index];
           DateTime createdAt = msg.createdAt;
-          final nextMsg = widget.chat.messages[index + 1];
+          final nextMsg = widget.chat.messages![index + 1];
 
           if (!_sameDay(nextMsg.createdAt, msg.createdAt)) {
             return _dateWidget(createdAt);
@@ -58,16 +59,16 @@ class _MessageListState extends State<MessageList> {
           );
         },
         itemBuilder: (ctx, index) {
-          if (index == widget.chat.messages.length) {
-            final msg = widget.chat.messages[index - 1];
+          if (index == widget.chat.messages!.length) {
+            final msg = widget.chat.messages![index - 1];
             DateTime createdAt = msg.createdAt;
             return _dateWidget(createdAt);
           }
-          final msg = widget.chat.messages[index];
-          final nextMsg = index == widget.chat.messages.length - 1
+          final msg = widget.chat.messages![index];
+          final nextMsg = index == widget.chat.messages!.length - 1
               ? null
-              : widget.chat.messages[index + 1];
-          final preMsg = index == 0 ? null : widget.chat.messages[index - 1];
+              : widget.chat.messages![index + 1];
+          final preMsg = index == 0 ? null : widget.chat.messages![index - 1];
           final first = nextMsg == null ||
               nextMsg.from != msg.from ||
               !_sameDay(msg.createdAt, nextMsg.createdAt);
@@ -81,7 +82,7 @@ class _MessageListState extends State<MessageList> {
             msgAlignment: msg.from == settings.currentUser.email,
           );
         },
-        itemCount: widget.chat.messages.length + 1,
+        itemCount: widget.chat.messages!.length + 1,
       ),
     );
   }

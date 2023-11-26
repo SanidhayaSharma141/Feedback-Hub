@@ -1,4 +1,5 @@
 import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/chat.dart';
 import 'package:feedback_hub/models/course.dart';
 import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/tools.dart';
@@ -33,6 +34,14 @@ class MainDrawer extends StatelessWidget {
                 } else {
                   showMsg(context, "You aren't an instructor.");
                 }
+              },
+            ),
+          if (kDebugMode)
+            LoadingElevatedButton(
+              icon: const Icon(Icons.abc),
+              label: const Text('Get Chats'),
+              onPressed: () async {
+                await fetchChats(null);
               },
             ),
         ],

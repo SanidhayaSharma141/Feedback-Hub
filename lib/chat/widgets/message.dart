@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:feedback_hub/chat/chat.dart';
 import 'package:feedback_hub/chat/message.dart';
 import 'package:feedback_hub/chat/widgets/indicative_message.dart';
 import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/chat.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +30,9 @@ class Message extends StatelessWidget {
     double r = 13;
     final size = MediaQuery.of(context).size;
 
-    return msg.indicative
+    return (msg.indicative == null || msg.indicative!)
         ? IndicativeMessage(
-            txt: msg.txt,
+            txt: msg.txt ?? "",
           )
         : Wrap(
             alignment: !msgAlignment ? WrapAlignment.start : WrapAlignment.end,
@@ -95,7 +95,9 @@ class Message extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (first && msg.from != settings.currentUser.email)
+                          if (first &&
+                              msg.from != null &&
+                              msg.from!.email != settings.currentUser.email)
                             Padding(
                               padding: const EdgeInsets.only(
                                   right: 5.0, left: 1, top: 2),
@@ -120,14 +122,14 @@ class Message extends StatelessWidget {
                           if (msg.deletedAt == null)
                             MarkdownBody(
                               fitContent: true,
-                              data: msg.txt,
+                              data: msg.txt ?? "",
                               selectable: true,
                               onTapText: () => showMsgInfo(context, msg),
                               onTapLink: (text, href, title) {
                                 if (href != null) launchUrl(Uri.parse(href));
                               },
                               imageBuilder: (uri, title, alt) =>
-                                  imageBuilder(uri, msg.id),
+                                  imageBuilder(uri, msg.id.toString()),
                             )
                           else
                             Row(
@@ -173,10 +175,14 @@ class Message extends StatelessWidget {
                                     ),
                               ),
                               const SizedBox(width: 4),
-                              if (msgAlignment)
+                              if (msgAlignment &&
+                                  chat.receivers != null &&
+                                  msg.readBy != null)
                                 Icon(
-                                  msg.readBy.containsAll(chat.receivers) &&
-                                          msg.readBy.contains(chat.owner)
+                                  msg.readBy!.containsAll(chat.receivers!
+                                              .map((e) => e.name)) &&
+                                          msg.readBy!.contains(
+                                              settings.currentUser.name)
                                       ? Icons.done_all_rounded
                                       : Icons.done_rounded,
                                   color: Theme.of(context).colorScheme.primary,
@@ -202,12 +208,12 @@ class Message extends StatelessWidget {
     // if (!isImage(msg) || msg.deletedAt != null) {
     //   showInfo(context, msg);
     // } else {
-    String url = msg.txt.split('(').last;
+    String url = (msg.txt ?? "").split('(').last;
     url = url.substring(0, url.length - 1);
     navigatorPush(
       context,
       ImagePreview(
-          image: imageBuilder(Uri.parse(url), msg.id),
+          image: imageBuilder(Uri.parse(url), msg.id.toString()),
           delete: (msg.from == settings.currentUser.email) ? delMsg : null,
           copy: copyMsg,
           info: (context) => showInfo(context, msg)),
@@ -228,9 +234,10 @@ void showInfo(context, MessageData msg) {
           builder: (ctx, constraints) => Column(
             children: [
               MarkdownBody(
-                data: msg.txt,
-                imageBuilder: (uri, title, alt) =>
-                    imageBuilder(uri, msg.id, title: title, alt: alt),
+                data: msg.txt ?? "",
+                imageBuilder: (uri, title, alt) => imageBuilder(
+                    uri, msg.id.toString(),
+                    title: title, alt: alt),
               ),
               const Divider(),
               Align(
@@ -246,12 +253,18 @@ void showInfo(context, MessageData msg) {
                             // color: Theme.of(context).colorScheme.primary,
                             ),
                       ),
-                      Text(
-                        msg.from,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                      ),
+                      if (msg.from != null)
+                        Text(
+                          msg.from!.name ??
+                              msg.from!.email ??
+                              msg.from!.id.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                        ),
                     ],
                   ),
                 ),
@@ -302,33 +315,29 @@ void showInfo(context, MessageData msg) {
                   ),
                 ),
               ),
-              if (msg.modifiedAt != null)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    width: constraints.maxWidth,
-                    child: Wrap(
-                      alignment: WrapAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Modified At:",
-                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              // color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                        Text(
-                          "${ddmmyyyy(msg.modifiedAt!)} | ${timeFrom(msg.modifiedAt!)}",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ],
-                    ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  width: constraints.maxWidth,
+                  child: Wrap(
+                    alignment: WrapAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Modified At:",
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            // color: Theme.of(context).colorScheme.primary,
+                            ),
+                      ),
+                      Text(
+                        "${ddmmyyyy(msg.updatedAt)} | ${timeFrom(msg.updatedAt)}",
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
               if (msg.deletedAt != null)
                 Align(
                   alignment: Alignment.centerLeft,

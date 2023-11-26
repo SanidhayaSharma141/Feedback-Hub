@@ -1,5 +1,3 @@
-import 'package:feedback_hub/chat/chat.dart';
-import 'package:feedback_hub/chat/chat_screen.dart';
 import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/screens/Achievements/achievement.dart';
 import 'package:feedback_hub/screens/courses/course_screen.dart';
@@ -49,7 +47,7 @@ class HomePage extends StatelessWidget {
                 mainAxisSpacing: 5,
                 children: [
                   GridTileLogo(
-                    title: 'Courses',
+                    title: 'All Courses',
                     icon: const Icon(
                       Icons.calendar_month_rounded,
                       size: 50,
@@ -113,18 +111,7 @@ class HomePage extends StatelessWidget {
                     ),
                     color: Theme.of(context).colorScheme.primary,
                     onTap: () {
-                      navigatorPush(
-                        context,
-                        ChatScreen(
-                          chat: ChatData(
-                            owner: 'Sanidhaya Sharma',
-                            receivers: ['Ramesh Jallu', 'Alka Chaddha'],
-                            title: 'Course: ITP',
-                            path: 'itp',
-                            description: 'Course Chat',
-                          ),
-                        ),
-                      );
+                      showMsg(context, "TODO: ChatScreen");
                     },
                   ),
                 ],

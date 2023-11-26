@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/academic_record.dart';
 import 'package:feedback_hub/models/instructor.dart';
 import 'package:feedback_hub/models/strapi_object.dart';
 import 'package:feedback_hub/providers/settings.dart';
@@ -49,6 +50,17 @@ class Course extends StrapiObject {
       if (instructors != null) 'instructors': null,
     };
   }
+}
+
+// This function works for student
+Future<List<Course>> fetchCourses() async {
+  assert(settings.currentUser.studentData != null);
+  final academicRecords = await fetchAcademicRecords();
+  final List<Course> courses = [];
+  for (final academicRecord in academicRecords) {
+    if (academicRecord.course != null) courses.add(academicRecord.course!);
+  }
+  return courses;
 }
 
 // This function fetches all current courses of an instructor

@@ -34,6 +34,8 @@ class SharedPreferenceInstance {
     prefs.setString('jwt', value);
   }
 
+  // This will contain the user's data but only upto 1 depth
+  // you need to fetch other details manually
   UserData currentUser = UserData();
 
   // dark modes

@@ -36,9 +36,9 @@ class _MessageInputFieldState extends State<MessageInputField> {
     try {
       await widget.onSubmit(
         MessageData(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          id: DateTime.now().millisecondsSinceEpoch,
           txt: txt,
-          from: settings.currentUser.email!,
+          from: settings.currentUser,
           createdAt: DateTime.now(),
         ),
       );

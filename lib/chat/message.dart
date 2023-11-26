@@ -1,43 +1,36 @@
 import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/strapi_object.dart';
+import 'package:feedback_hub/models/user.dart';
 import 'package:flutter/material.dart';
 
-import 'chat.dart';
+import '../models/chat.dart';
 
-class MessageData {
-  /// The datetime object representing the
-  late String id;
-
+class MessageData extends StrapiObject {
   /// The markdown text
-  late String txt;
+  String? txt;
 
   /// Sender of the message
-  late String from;
-
-  /// CreatedAt
-  late DateTime createdAt;
-
-  /// Modified At
-  DateTime? modifiedAt;
+  UserData? from;
 
   /// Set of emails who have read this msg
-  Set<String> readBy = {};
+  Set<int>? readBy = {};
 
   /// These indicative messages.value are used to indicate
   /// that something has happened in the chat
   /// like the inclusion of someone in the chat
   /// can only be created but not deleted
-  late bool indicative;
+  bool? indicative;
 
   /// This flag represents whether the msg is deleted or not?
   DateTime? deletedAt;
 
   MessageData({
-    required this.id,
-    required this.txt,
-    required this.from,
-    required this.createdAt,
+    super.id,
+    this.txt,
+    this.from,
+    super.createdAt,
     this.indicative = false,
-    this.modifiedAt,
+    super.updatedAt,
     this.deletedAt,
   });
 
@@ -48,30 +41,29 @@ class MessageData {
       "indicative": indicative,
       "createdAt": createdAt.millisecondsSinceEpoch,
       "deletedAt": deletedAt == null ? null : deletedAt!.millisecondsSinceEpoch,
-      if (modifiedAt != null) "modifiedAt": modifiedAt!.millisecondsSinceEpoch,
-      "readBy": readBy.toList()
+      "updatedAt": updatedAt.millisecondsSinceEpoch,
+      if (readBy != null) "readBy": readBy!.toList()
     };
   }
 
-  MessageData.load(this.id, Map<String, dynamic> data) {
+  @override
+  MessageData.load(Map<String, dynamic> data) {
+    super.load(data);
     txt = data["txt"];
-    from = data["from"];
-    createdAt = DateTime.fromMillisecondsSinceEpoch(data["createdAt"]);
+    if (data['from'] != null) {
+      from = UserData()..load(data["from"]);
+    }
     deletedAt = data["deletedAt"] == null
         ? null
         : DateTime.fromMillisecondsSinceEpoch(data["deletedAt"]!);
     indicative = data["indicative"] ?? false;
-    modifiedAt = data["modifiedAt"] == null
-        ? null
-        : DateTime.fromMillisecondsSinceEpoch(data["modifiedAt"]);
-    readBy = ((data['readBy'] ?? []) as List<dynamic>)
-        .map((e) => e.toString())
-        .toSet();
+    readBy = ((data['readBy'] ?? []) as List<int>).map((e) => e).toSet();
   }
 }
 
 Future<void> addMeInReadBy(ChatData chat, MessageData msg) async {
-  msg.readBy.add(settings.currentUser.id.toString());
+  msg.readBy ??= {};
+  msg.readBy!.add(settings.currentUser.id);
 }
 
 Future<MessageData?> fetchLastMessage(String path) async {

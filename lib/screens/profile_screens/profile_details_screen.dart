@@ -45,11 +45,15 @@ class ProfileDetailsScreen extends StatelessWidget {
                 showDetailsPage: false,
               ),
               const Divider(),
-              const Text('Courses Taught/enrolled by him'),
+              if (settings.currentUser.studentData != null)
+                const Text('Enrolled Courses'),
+              if (settings.currentUser.instructorData != null)
+                const Text('Your Current Courses'),
+              if (settings.currentUser.studentData != null)
+                const Text('Your Grades'),
+              if (settings.currentUser.parentData != null)
+                const Text('Your Childrens'),
               const Divider(),
-              const Text('Grades he/you gave you/him'),
-              const Divider(),
-              const Text('Childrens'),
               // TODO: Override courses api and make it so that we get appropriate courses for each user.
               // ListView.builder(
               //   itemBuilder: (context, index) {
