@@ -2,8 +2,12 @@ import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/screens/auth_screen.dart';
 import 'package:feedback_hub/tools.dart';
+import 'package:feedback_hub/widgets/academic_records_scroll_view.dart';
+import 'package:feedback_hub/widgets/children_scroll_view.dart';
+import 'package:feedback_hub/widgets/instructor_course_scroll_view.dart';
 import 'package:feedback_hub/widgets/loading_elevated_button.dart';
 import 'package:feedback_hub/widgets/profile_preview.dart';
+import 'package:feedback_hub/widgets/student_course_scroll_view.dart';
 import 'package:flutter/material.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
@@ -23,7 +27,7 @@ class ProfileDetailsScreen extends StatelessWidget {
               navigatorPush(context, const AuthScreen());
             },
           ),
-          if (user.email == settings.currentUser.email)
+          if (user.email == user.email)
             IconButton(
               onPressed: () {
                 // navigatorPush(context, EditProfile(user: user));
@@ -39,28 +43,19 @@ class ProfileDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               ProfilePreview(
                 user: user,
                 showDetailsPage: false,
               ),
               const Divider(),
-              if (settings.currentUser.studentData != null)
-                const Text('Enrolled Courses'),
-              if (settings.currentUser.instructorData != null)
-                const Text('Your Current Courses'),
-              if (settings.currentUser.studentData != null)
-                const Text('Your Grades'),
-              if (settings.currentUser.parentData != null)
-                const Text('Your Childrens'),
+              if (user.studentData != null) const StudentCourseScrollView(),
+              if (user.instructorData != null)
+                const InstructorCourseScrollView(),
+              if (user.studentData != null) const AcademicRecordsScrollView(),
+              if (user.parentData != null) const ChildrenScrollView(),
               const Divider(),
-              // TODO: Override courses api and make it so that we get appropriate courses for each user.
-              // ListView.builder(
-              //   itemBuilder: (context, index) {
-              //     return Container();
-              //   },
-              //   itemCount: ,
-              // ),
             ],
           ),
         ),

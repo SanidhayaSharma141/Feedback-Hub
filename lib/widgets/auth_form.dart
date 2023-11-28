@@ -36,7 +36,7 @@ class _AuthFormState extends State<AuthForm> {
     FocusScope.of(context).unfocus();
     if (!_formkey.currentState!.validate()) return;
     _formkey.currentState!.save();
-    if (!_email.endsWith(suffix)) {
+    if (!_email.contains('@')) {
       _email += suffix;
     }
     await widget.onSubmit(_email.trim(), _password);

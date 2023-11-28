@@ -39,45 +39,37 @@ class CourseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      title: Text(course.name ?? course.courseId),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            runSpacing: 0,
-            spacing: 4,
+    return SizedBox(
+      width: 150,
+      child: Card(
+        // child: Text(course.name ?? course.courseId),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                "${course.courseId} - ${course.name ?? ''}",
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-              ),
+              Text(course.name ?? course.courseId, textAlign: TextAlign.center),
+              Text("${course.courseId} - ${course.name ?? ''}",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                  textAlign: TextAlign.center),
+              if (course.instructors != null)
+                for (final instructor in course.instructors!)
+                  Text(instructor.id.toString(),
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.5),
+                          ),
+                      textAlign: TextAlign.center),
             ],
           ),
-          if (course.instructors != null)
-            for (final instructor in course.instructors!)
-              Text(
-                instructor.id.toString(),
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.5),
-                    ),
-              ),
-        ],
+        ),
       ),
-      children: [
-        if (course.description != null)
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(course.description!),
-          ),
-      ],
     );
   }
 }

@@ -52,15 +52,15 @@ class Course extends StrapiObject {
   }
 }
 
-// This function works for student
+// This function works for current user (if he is a student)
 Future<List<Course>> fetchCourses() async {
   assert(settings.currentUser.studentData != null);
   final academicRecords = await fetchAcademicRecords();
-  final List<Course> courses = [];
+  final Set<Course> courses = {};
   for (final academicRecord in academicRecords) {
     if (academicRecord.course != null) courses.add(academicRecord.course!);
   }
-  return courses;
+  return courses.toList();
 }
 
 // This function fetches all current courses of an instructor
