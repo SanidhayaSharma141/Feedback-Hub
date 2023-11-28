@@ -430,6 +430,7 @@ Future<String?> promptUser(BuildContext context,
         ),
         content: TextFormField(
           onChanged: (value) => ans = value,
+          maxLength: null,
           decoration: InputDecoration(
             hintText: 'Enter your input here',
             border: OutlineInputBorder(
@@ -437,8 +438,8 @@ Future<String?> promptUser(BuildContext context,
               borderRadius: BorderRadius.circular(30),
             ),
           ),
-          maxLines: 1,
-          minLines: 1,
+          maxLines: 5,
+          // expands: true,
           keyboardType: TextInputType.text,
         ),
         actions: buttons,

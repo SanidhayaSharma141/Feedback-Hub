@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/models/academic_record.dart';
+import 'package:feedback_hub/models/parent.dart';
 import 'package:feedback_hub/providers/settings.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/image_preview.dart';
@@ -217,62 +218,91 @@ class AcademicRecordTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: () {
-        showMsg(context, record.course!.description.toString());
-      },
-      leading: IconButton(
-        onPressed: () async {
-          showMsg(context, 'Feedback of $record');
-          // final student = record.student!;
-          // final instructor = record.instructor!;
-          // final parent = await fetchParent(record.student!.id);
-          // print(student.rollNumber);
-          // print(instructor.name);
-          // print(parent.name);
-
-          try {
-            final response = await http.post(
-                Uri.parse(
-                  'http://$host/api/chat',
-                ),
-                headers: {
-                  'Authorization': 'Bearer ${settings.jwt}',
-                  'Content-Type': 'application/json',
-                },
-                body: jsonEncode());
-
-            if (response.statusCode == 200) {
-              print("successful");
-            } else {
-              print("unsuccessful");
-            }
-          } catch (e) {
-            print(e.toString());
-          }
-        },
-        icon: const Icon(
-          Icons.chat_bubble_outline_rounded,
-        ),
-      ),
-      title: Text(record.course!.name ?? "Unknown Course"),
-      subtitle: Text(
-        record.instructor == null
-            ? "No Instructor"
-            : record.instructor!.name ??
-                record.instructor!.email ??
-                "No name or email",
-      ),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(record.course!.credits.toString()),
-          const SizedBox(
-            width: 10,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          onTap: () {
+            showMsg(context, record.course!.description.toString());
+          },
+          leading: IconButton(
+            onPressed: () async {
+              showMsg(context, 'Feedback of $record');
+              final student = record.student!;
+              final instructor = record.instructor!;
+              final parent = await fetchParent(record.student!.id);
+              // print(student.rollNumber);
+              // print(instructor.name);
+              // print(parent.name);
+              final resp = await promptUser(context,
+                  question: "Your Feedback",
+                  description: "Your view on this course?");
+              try {
+                final response = await http.post(
+                    Uri.parse(
+                      'http://$host/api/chats',
+                    ),
+                    headers: {
+                      'Authorization': 'Bearer ${settings.jwt}',
+                      'Content-Type': 'application/json',
+                    },
+                    body: json.encode({
+                      'data': {
+                        'academic_record': record.id,
+                        'message': resp,
+                        'participants': [
+                          settings.currentUser.id,
+                          parent.id,
+                          instructor.id,
+                        ],
+                      }
+                    }));
+                print({
+                  'data': {
+                    'academic_record': record.id,
+                    'messages': resp,
+                    'participants': [
+                      settings.currentUser.id,
+                      parent.id,
+                      instructor.id,
+                    ],
+                  }
+                });
+                if (response.statusCode == 200) {
+                  print("successful");
+                } else {
+                  print("unsuccessful");
+                }
+              } catch (e) {
+                print(e.toString());
+              }
+            },
+            icon: const Icon(
+              Icons.chat_bubble_outline_rounded,
+            ),
           ),
-          Text(record.grade == null ? "   " : pointToGrade(record.grade!)),
-        ],
-      ),
+          title: Text(record.course!.name ?? "Unknown Course"),
+          subtitle: Text(
+            record.instructor == null
+                ? "No Instructor"
+                : record.instructor!.name ??
+                    record.instructor!.email ??
+                    "No name or email",
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(record.course!.credits.toString()),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(record.grade == null ? "   " : pointToGrade(record.grade!)),
+            ],
+          ),
+        ),
+        if (record.feedback != null)
+          Text(record.feedback!.message ?? "No Message Here Yet"),
+      ],
     );
   }
 }

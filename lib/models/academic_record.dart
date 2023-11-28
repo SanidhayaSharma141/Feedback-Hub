@@ -6,7 +6,6 @@ import 'package:feedback_hub/models/strapi_object.dart';
 import 'package:feedback_hub/models/student.dart';
 import 'package:feedback_hub/models/user.dart';
 import 'package:feedback_hub/providers/settings.dart';
-import 'package:feedback_hub/tools.dart';
 import 'package:http/http.dart' as http;
 
 class AcademicRecord extends StrapiObject {
@@ -14,6 +13,8 @@ class AcademicRecord extends StrapiObject {
   UserData? instructor;
   StudentData? student;
   int semester;
+  FeedbackData? feedback;
+
   double? grade;
   AcademicRecord({
     super.id = 0,
@@ -22,6 +23,19 @@ class AcademicRecord extends StrapiObject {
     this.student,
     this.semester = 0,
     this.grade,
+    this.feedback,
+  });
+}
+
+class FeedbackData extends StrapiObject {
+  List<UserData>? participants;
+  AcademicRecord? academicRecord;
+  String? message = "";
+
+  FeedbackData({
+    this.participants,
+    this.academicRecord,
+    this.message,
   });
 }
 
@@ -29,31 +43,34 @@ class AcademicRecord extends StrapiObject {
 Future<List<AcademicRecord>> fetchAcademicRecords() async {
   final response = await http.get(
     Uri.parse(
-      'http://$host/api/users/me?populate[0]=student_data&populate[1]=student_data.academic_records&populate[2]=student_data.academic_records.course&populate[3]=student_data.academic_records.instructor&populate[4]=student_data.academic_records.instructor.userdatum',
+      'http://$host/api/users/me?populate[0]=student_data&populate[1]=student_data.academic_records&populate[2]=student_data.academic_records.course&populate[3]=student_data.academic_records.instructor&populate[4]=student_data.academic_records.instructor.userdatum&populate[5]=student_data.academic_records.chat',
     ),
     headers: {
       'Authorization': 'Bearer ${settings.jwt}',
     },
   );
-  print('response.request = ${response.request}');
-  print('response.statusCode = ${response.statusCode}');
+  // print('response.request = ${response.request}');
+  // print('response.statusCode = ${response.statusCode}');
   if (response.statusCode >= 400) {
     final err = json.decode(response.body)['error'];
     throw "${err['name']}(Code: ${err['status']}): ${err['message']}";
   }
-  print('response.body = ${response.body}');
+  // print('response.body = ${response.body}');
   final studentData = json.decode(response.body)['student_data'];
   if (studentData == null) {
     throw "Either you're not a student or you do not have permission to view this.\nIf this is a mistake contact the administrator.";
   }
   final data = studentData['academic_records'];
-  print('academic_records = $data');
+  // print('academic_records = $data');
   if (data == null) {
     throw "No Records Found.";
   }
   final recordList = [
     for (final record in data)
       AcademicRecord(
+        feedback: record['chat'] != null
+            ? FeedbackData(message: record['chat']['message'])
+            : null,
         id: record['id'],
         course: Course(id: record['id'], courseId: '')
           ..load(record['course'] ?? {}),

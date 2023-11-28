@@ -55,7 +55,7 @@ Future<List<ChatData>> fetchChats(int? id) async {
 }
 
 Future<bool> addChats(ChatData chatData) async {
-  final chatData=ChatData()
+  final chatData = ChatData();
   try {
     final response = await http.post(
         Uri.parse(
