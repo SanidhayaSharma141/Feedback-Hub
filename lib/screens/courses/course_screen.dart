@@ -56,16 +56,15 @@ class CourseTile extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                   textAlign: TextAlign.center),
-              if (course.instructors != null)
-                for (final instructor in course.instructors!)
-                  Text(instructor.id.toString(),
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.5),
-                          ),
-                      textAlign: TextAlign.center),
+              if (course.credits != null)
+                Text("credits: ${course.credits}",
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.5),
+                        ),
+                    textAlign: TextAlign.center),
             ],
           ),
         ),

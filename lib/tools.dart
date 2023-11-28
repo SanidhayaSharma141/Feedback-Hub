@@ -539,20 +539,20 @@ List<Color> colorList = const [
   Colors.amberAccent
 ];
 
-String gradePointToGrade(double gradePoint) {
-  if (gradePoint >= 9) {
+String pointToGrade(double gradePoint) {
+  if (gradePoint > 9) {
     return 'A';
-  } else if (gradePoint >= 8) {
+  } else if (gradePoint > 8) {
     return 'A-';
-  } else if (gradePoint >= 7) {
+  } else if (gradePoint > 7) {
     return 'B';
-  } else if (gradePoint >= 6) {
+  } else if (gradePoint > 6) {
     return 'B-';
-  } else if (gradePoint >= 5) {
+  } else if (gradePoint > 5) {
     return 'C';
-  } else if (gradePoint >= 4) {
+  } else if (gradePoint > 4) {
     return 'C-';
-  } else if (gradePoint >= 3.3) {
+  } else if (gradePoint > 3.3) {
     return 'D';
   }
   return "F";

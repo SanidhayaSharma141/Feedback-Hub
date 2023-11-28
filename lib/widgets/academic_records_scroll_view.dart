@@ -74,7 +74,7 @@ class AcademicRecordTile extends StatelessWidget {
             children: [
               if (record.grade != null)
                 Text(
-                  gradePointToGrade(record.grade!),
+                  pointToGrade(record.grade!),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
