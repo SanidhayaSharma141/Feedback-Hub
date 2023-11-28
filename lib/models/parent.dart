@@ -32,3 +32,21 @@ Future<List<UserData>> fetchChildren() async {
   if (children == null || children.isEmpty) return [];
   return (children as List<dynamic>).map((e) => UserData()..load(e)).toList();
 }
+
+// Fetches parent of current user
+Future<UserData> fetchParent(int studentID) async {
+  final response = await http.get(
+    Uri.parse(
+        'http://$host/api/students/$studentID?populate[0]=parent&populate[1]=parent.userdatum'),
+    headers: {
+      'Authorization': 'Bearer ${settings.jwt}',
+    },
+  );
+  print(response.body);
+  final parentData = json.decode(response.body)['data']['attributes']['parent']
+      ['data']['attributes']['userdatum']['data'];
+  print(parentData);
+  return UserData()
+    ..load((parentData['attributes'] as Map<String, dynamic>)
+      ..addAll({'id': parentData['id']}));
+}

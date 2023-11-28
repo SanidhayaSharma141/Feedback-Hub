@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/models/academic_record.dart';
+import 'package:feedback_hub/providers/settings.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/image_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AcademicRecordScreen extends StatelessWidget {
   const AcademicRecordScreen({super.key});
@@ -217,7 +221,40 @@ class AcademicRecordTile extends StatelessWidget {
       onTap: () {
         showMsg(context, record.course!.description.toString());
       },
-      leading: Text(record.course!.courseId),
+      leading: IconButton(
+        onPressed: () async {
+          showMsg(context, 'Feedback of $record');
+          // final student = record.student!;
+          // final instructor = record.instructor!;
+          // final parent = await fetchParent(record.student!.id);
+          // print(student.rollNumber);
+          // print(instructor.name);
+          // print(parent.name);
+
+          try {
+            final response = await http.post(
+                Uri.parse(
+                  'http://$host/api/chat',
+                ),
+                headers: {
+                  'Authorization': 'Bearer ${settings.jwt}',
+                  'Content-Type': 'application/json',
+                },
+                body: jsonEncode());
+
+            if (response.statusCode == 200) {
+              print("successful");
+            } else {
+              print("unsuccessful");
+            }
+          } catch (e) {
+            print(e.toString());
+          }
+        },
+        icon: const Icon(
+          Icons.chat_bubble_outline_rounded,
+        ),
+      ),
       title: Text(record.course!.name ?? "Unknown Course"),
       subtitle: Text(
         record.instructor == null

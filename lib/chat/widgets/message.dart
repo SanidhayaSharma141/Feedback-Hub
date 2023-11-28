@@ -176,10 +176,10 @@ class Message extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               if (msgAlignment &&
-                                  chat.receivers != null &&
+                                  chat.participants != null &&
                                   msg.readBy != null)
                                 Icon(
-                                  msg.readBy!.containsAll(chat.receivers!
+                                  msg.readBy!.containsAll(chat.participants!
                                               .map((e) => e.name)) &&
                                           msg.readBy!.contains(
                                               settings.currentUser.name)

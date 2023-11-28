@@ -9,12 +9,12 @@ import 'package:feedback_hub/providers/settings.dart';
 import 'package:http/http.dart' as http;
 
 class ChatData extends StrapiObject {
-  List<UserData>? receivers;
+  List<UserData>? participants;
   AcademicRecord? academicRecord;
   List<MessageData>? messages = [];
 
   ChatData({
-    this.receivers,
+    this.participants,
     this.academicRecord,
     this.messages,
   });
@@ -23,7 +23,7 @@ class ChatData extends StrapiObject {
   void load(Map<String, dynamic> data) {
     super.load(data);
     academicRecord = AcademicRecord()..load(data['academic_record']);
-    receivers = [
+    participants = [
       for (final userData in data['participants']) UserData()..load(userData)
     ];
     messages = [
@@ -52,4 +52,27 @@ Future<List<ChatData>> fetchChats(int? id) async {
         in (json.decode(response.body)['chats'] as List<dynamic>))
       ChatData()..load(chatData)
   ];
+}
+
+Future<bool> addChats(ChatData chatData) async {
+  final chatData=ChatData()
+  try {
+    final response = await http.post(
+        Uri.parse(
+          'http://$host/api/chat',
+        ),
+        headers: {
+          'Authorization': 'Bearer ${settings.jwt}',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(chatData));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
 }
