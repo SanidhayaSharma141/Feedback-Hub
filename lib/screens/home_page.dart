@@ -2,7 +2,6 @@ import 'package:feedback_hub/main.dart';
 import 'package:feedback_hub/screens/Achievements/achievement.dart';
 import 'package:feedback_hub/screens/courses/course_screen.dart';
 import 'package:feedback_hub/screens/disciplinary_history/disciplinary_history.dart';
-import 'package:feedback_hub/screens/feedbacks/feedback.dart';
 import 'package:feedback_hub/screens/main_drawer.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/dark_light_mode_button.dart';
@@ -79,18 +78,18 @@ class HomePage extends StatelessWidget {
                       navigatorPush(context, const DisciplinaryScreen());
                     },
                   ),
-                  GridTileLogo(
-                    title: 'Your Feedbacks',
-                    icon: const Icon(
-                      Icons.thumbs_up_down,
-                      size: 50,
-                    ),
-                    color: Theme.of(context).colorScheme.primary,
-                    onTap: () {
-                      navigatorPush(context, const FeedbackScreen());
-                      // showMsg(context, 'In development :-|');
-                    },
-                  ),
+                  // GridTileLogo(
+                  //   title: 'Your Feedbacks',
+                  //   icon: const Icon(
+                  //     Icons.thumbs_up_down,
+                  //     size: 50,
+                  //   ),
+                  //   color: Theme.of(context).colorScheme.primary,
+                  //   onTap: () {
+                  //     navigatorPush(context, const FeedbackScreen());
+                  //     // showMsg(context, 'In development :-|');
+                  //   },
+                  // ),
                   GridTileLogo(
                     title: 'Awards and Achievements ',
                     icon: const Icon(
@@ -103,17 +102,17 @@ class HomePage extends StatelessWidget {
                       // showMsg(context, 'In development :-|');
                     },
                   ),
-                  GridTileLogo(
-                    title: 'Feedback Chats ',
-                    icon: const Icon(
-                      Icons.chat_rounded,
-                      size: 50,
-                    ),
-                    color: Theme.of(context).colorScheme.primary,
-                    onTap: () {
-                      showMsg(context, "TODO: ChatScreen");
-                    },
-                  ),
+                  // GridTileLogo(
+                  //   title: 'Feedback Chats ',
+                  //   icon: const Icon(
+                  //     Icons.chat_rounded,
+                  //     size: 50,
+                  //   ),
+                  //   color: Theme.of(context).colorScheme.primary,
+                  //   onTap: () {
+                  //     showMsg(context, "TODO: ChatScreen");
+                  //   },
+                  // ),
                 ],
               ),
             ),

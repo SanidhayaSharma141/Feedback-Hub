@@ -330,6 +330,9 @@ class AcademicRecordTile extends StatelessWidget {
                         final resp = await promptUser(context,
                             question: "Your Feedback",
                             description: "Your view on this course?");
+                        if (resp == null) {
+                          return;
+                        }
                         try {
                           final response = await http.post(
                               Uri.parse('http://$host/api/chats'),

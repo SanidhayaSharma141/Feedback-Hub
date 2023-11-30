@@ -1,6 +1,13 @@
+import 'dart:convert';
+
+import 'package:feedback_hub/main.dart';
+import 'package:feedback_hub/models/strapi_object.dart';
+import 'package:feedback_hub/models/user.dart';
+import 'package:feedback_hub/providers/settings.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/section.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DisciplinaryScreen extends StatelessWidget {
   const DisciplinaryScreen({super.key});
@@ -11,46 +18,83 @@ class DisciplinaryScreen extends StatelessWidget {
       appBar: AppBar(
         title: shaderText(context, title: 'Your Disciplinary Record'),
       ),
-      body: ListView(
-        children: const [
-          Section(
-            title: 'Level 1 Offense',
-            children: [
-              Column(
-                children: [
-                  ExpansionTile(
-                    title: Text("Anti Ragging Charges"),
-                    leading: Icon(Icons.dangerous),
-                    subtitle: Text("Suspension-2 Months"),
-                    children: [
-                      Text(
-                          "Anubhav Singh found himself at the center of a ragging incident that took place in his college. Ragging refers to the act of hazing or subjecting newcomers to various forms of harassment or humiliation, and it is typically considered unacceptable and against college policies. In this particular incident, Anubhav Singh's involvement in the ragging activities led to his suspension for a period of two months as a disciplinary measure. This decision was taken by the college authorities to ensure the safety and well-being of students and to send a clear message against such behavior.")
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-          Section(
-            title: 'Level 2 Offense',
-            children: [
-              Column(
-                children: [
-                  ExpansionTile(
-                    title: Text("Physical Fight with Junior"),
-                    leading: Icon(Icons.dangerous),
-                    subtitle: Text("Apology letter taken"),
-                    children: [
-                      Text(
-                          "Anubhav Singh was involved in a regrettable incident during a basketball game in his college. While playing, a physical altercation occurred between him and a junior student. This unfortunate incident led to an official intervention by the college authorities. Anubhav was required to write an apology letter, expressing remorse for his actions and assuring that there would be no repetition of such behavior in the next six months. The college took this step to promote a safe and respectful environment for all students and to prevent any further instances of physical confrontation.")
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
+      body: FutureBuilder(
+        builder: (ctx, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return circularProgressIndicator();
+          }
+          final discRecord = snapshot.data!;
+          return ListView.builder(
+            itemCount: discRecord.length,
+            itemBuilder: (context, index) => Section(
+              title: 'Level ${discRecord[index].offenceLevel} Offense',
+              children: [
+                Column(
+                  children: [
+                    ExpansionTile(
+                      trailing: const SizedBox(
+                        width: 1,
+                        height: 1,
+                      ),
+                      title: Text(discRecord[index].title!),
+                      // leading: const Icon(Icons.dangerous),
+                      subtitle:
+                          Text(discRecord[index].action ?? "No action taken"),
+                      children: [
+                        Text(discRecord[index].description ?? "Noting to show")
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        },
+        future: fetchDisRecord(null),
       ),
     );
   }
+}
+
+class DisciplinaryRecord extends StrapiObject {
+  String? title, action, description;
+  UserData? student;
+  int? offenceLevel;
+  DisciplinaryRecord(
+      {this.title,
+      this.action,
+      this.description,
+      this.student,
+      this.offenceLevel});
+
+  @override
+  void load(Map<String, dynamic> data) {
+    super.load(data);
+    title = data['Title'];
+    description = data['Description'];
+    action = data['Action'];
+    offenceLevel = data['offense'];
+  }
+}
+
+Future<List<DisciplinaryRecord>> fetchDisRecord(int? id) async {
+  final response = await http.get(
+    Uri.parse(
+      'http://$host/api/users/${id ?? "me"}?populate[0]=student_data&populate[1]=student_data.disciplinary_records',
+    ),
+    headers: {
+      'Authorization': 'Bearer ${settings.jwt}',
+    },
+  );
+
+  print('response.request = ${response.request}');
+  print('response.statusCode = ${response.statusCode}');
+  if (response.statusCode >= 400) {
+    final err = json.decode(response.body)['error'];
+    throw "${err['name']}(Code: ${err['status']}): ${err['message']}";
+  }
+  print('response.body = ${response.body}');
+  final List<dynamic> records =
+      json.decode(response.body)['student_data']['disciplinary_records'];
+  return records.map((e) => DisciplinaryRecord()..load(e)).toList();
 }

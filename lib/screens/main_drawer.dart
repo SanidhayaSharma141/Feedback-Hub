@@ -3,6 +3,7 @@ import 'package:feedback_hub/models/chat.dart';
 import 'package:feedback_hub/models/course.dart';
 import 'package:feedback_hub/models/parent.dart';
 import 'package:feedback_hub/models/user.dart';
+import 'package:feedback_hub/screens/disciplinary_history/disciplinary_history.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:feedback_hub/widgets/loading_elevated_button.dart';
 import 'package:flutter/foundation.dart';
@@ -51,6 +52,14 @@ class MainDrawer extends StatelessWidget {
               label: const Text('Get Children'),
               onPressed: () async {
                 print(await fetchChildren());
+              },
+            ),
+          if (kDebugMode)
+            LoadingElevatedButton(
+              icon: const Icon(Icons.abc),
+              label: const Text('Get Children'),
+              onPressed: () async {
+                await fetchDisRecord(null);
               },
             ),
         ],
