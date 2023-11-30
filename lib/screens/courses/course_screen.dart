@@ -1,4 +1,5 @@
 import 'package:feedback_hub/models/course.dart';
+import 'package:feedback_hub/screens/courses/course_details_screen.dart';
 import 'package:feedback_hub/tools.dart';
 import 'package:flutter/material.dart';
 
@@ -41,31 +42,45 @@ class CourseTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 150,
-      child: Card(
-        // child: Text(course.name ?? course.courseId),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(course.name ?? course.courseId, textAlign: TextAlign.center),
-              Text("${course.courseId} - ${course.name ?? ''}",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                  textAlign: TextAlign.center),
-              if (course.credits != null)
-                Text("credits: ${course.credits}",
+      child: InkWell(
+        onTap: () async {
+          if (context.mounted) {
+            await navigatorPush(
+              context,
+              CourseDetailScreen(
+                course: course,
+              ),
+            );
+          }
+        },
+        child: Card(
+          color: Colors.transparent,
+          // child: Text(course.name ?? course.courseId),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(course.name ?? course.courseId,
+                    textAlign: TextAlign.center),
+                Text("${course.courseId} - ${course.name ?? ''}",
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.5),
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                     textAlign: TextAlign.center),
-            ],
+                if (course.credits != null)
+                  Text("credits: ${course.credits}",
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.5),
+                          ),
+                      textAlign: TextAlign.center),
+              ],
+            ),
           ),
         ),
       ),

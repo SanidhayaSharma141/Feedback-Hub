@@ -19,15 +19,16 @@ class ProfileDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          LoadingElevatedButton(
-            icon: const Icon(Icons.login),
-            label: const Text('Sign Out'),
-            onPressed: () async {
-              settings.clear();
-              navigatorPush(context, const AuthScreen());
-            },
-          ),
-          if (user.email == user.email)
+          if (user.id == settings.currentUser.id)
+            LoadingElevatedButton(
+              icon: const Icon(Icons.login),
+              label: const Text('Sign Out'),
+              onPressed: () async {
+                settings.clear();
+                navigatorPush(context, const AuthScreen());
+              },
+            ),
+          if (user.email == settings.currentUser.email)
             IconButton(
               onPressed: () {
                 // navigatorPush(context, EditProfile(user: user));

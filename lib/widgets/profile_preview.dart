@@ -89,10 +89,11 @@ class ProfilePreview extends StatelessWidget {
         Wrap(
           alignment: WrapAlignment.spaceAround,
           children: [
-            if (showChatButton)
+            if (showChatButton && user.phoneNumber != null)
               IconButton(
-                onPressed: () {
-                  showMsg(context, 'Chat Screen');
+                onPressed: () async {
+                  await launchUrl(
+                      Uri.parse("https://wa.me/91${user.phoneNumber}"));
                 },
                 icon: const Icon(Icons.chat_rounded),
               ),
